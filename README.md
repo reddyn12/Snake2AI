@@ -5,5 +5,5 @@
 3. given board init - update board properly at every time step
 4. given board, path - draw game
 
-# Using this knowledge, going to see if more comple games can be encode into executable weights
+# Using this knowledge, going to see if more complex games can be encoded into executable weights - BOTH logic and grphics
 
