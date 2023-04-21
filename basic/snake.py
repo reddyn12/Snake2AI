@@ -6,11 +6,13 @@ class Snake:
         self.cols = cols
         self.initGrid()
         self.expand = None
-        self.direction = None
+        self.direction = 1
         self.moves = [(-1,0), (0,1), (0,-1), (1,0)]
         self.gameOver = False
         self.score = 0
         self.growing = False
+        self.display = None
+        self.cellSize = 20
     def initGrid(self):
         self.board = [[0 for j in range(self.cols)] for i in range(self.rows)]
         redo = True
@@ -35,20 +37,32 @@ class Snake:
     def step(self, action = None):
         if(action is None):
             action = self.direction
+        elif(action==0 and self.direction==3):
+            pass
+        elif(action==3 and self.direction==0):
+            pass
+        elif(action==1 and self.direction==2):
+            pass
+        elif(action==2 and self.direction==1):
+            pass
         else:
             self.direction = action
         nr = self.path[0][0] + self.moves[self.direction][0]
         nc = self.path[0][1] + self.moves[self.direction][1]
         if(nr<0 or nr>=self.rows):
             self.gameOver = True
+            return self.gameOver
         if(nc<0 or nc>=self.cols):
             self.gameOver = True
+            return self.gameOver
         if((nr,nc) in self.path):
             if(self.growing):
                 self.gameOver = True
+                return self.gameOver
             else:
                 if(self.path[-1] == (nr,nc)):
                     self.gameOver = True
+                    return self.gameOver
         self.path = [(nr, nc)] + self.path
         if(not self.growing):
             # self.path.pop()
@@ -66,6 +80,7 @@ class Snake:
                 if(self.board[r][c]==0 and (r,c) not in self.path):
                     self.board[r][c] = 2
                     self.food = (r,c)
+                    redo = False
     def boardComp(self):
         # HOW DOES THIS BREAK???? FUCK COPY vs DEEPCOPY
         # self.finalBoard = self.board
@@ -74,4 +89,22 @@ class Snake:
         for x in self.path:
             self.finalBoard[x[0]][x[1]] = 1
             
-        pass
+    def drawBoard(self):
+        self.boardComp()
+        if self.display is None:
+            import pygame
+            pygame.init()
+            self.display = pygame.display.set_mode((self.cols * self.cellSize, (self.rows + 1) * self.cellSize))
+        
+        # Draw the board
+        for row in range(self.rows):
+            for col in range(self.cols):
+                color = pygame.Color("green")
+                if self.finalBoard[row][col] == 1:
+                    color = pygame.Color("blue")
+                elif self.finalBoard[row][col] == 2:
+                    color = pygame.Color("red")
+                pygame.draw.rect(self.display, color, pygame.Rect(col*self.cellSize, (row+1)*self.cellSize, self.cellSize, self.cellSize))
+                pygame.draw.rect(self.display, pygame.Color("black"), pygame.Rect(col*self.cellSize, (row+1)*self.cellSize, self.cellSize, self.cellSize), 1)
+        
+        pygame.display.update()
