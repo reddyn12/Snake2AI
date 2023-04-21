@@ -33,7 +33,7 @@ class Snake:
                 self.food = (r,c)
                 print(r,c)
                 redo = False
-    #[up, right, left, down]
+    #[up, right, left, down, NONE]
     def step(self, action = None):
         if(action is None):
             action = self.direction
