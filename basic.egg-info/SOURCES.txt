@@ -1,0 +1,12 @@
+README.md
+setup.py
+basic/__init__.py
+basic/mainRun.py
+basic/snake.py
+basic/snakeGym.py
+basic/userRun.py
+basic.egg-info/PKG-INFO
+basic.egg-info/SOURCES.txt
+basic.egg-info/dependency_links.txt
+basic.egg-info/requires.txt
+basic.egg-info/top_level.txt

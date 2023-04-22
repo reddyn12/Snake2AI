@@ -1,2 +1,7 @@
+import gym
+from snakeGym import SnakeEnv
 
-print("hi this hit")
+gym.register(
+    id='SnakeEnv-v0',
+    entry_point='snakeGym:SnakeEnv',
+)

@@ -1,4 +1,6 @@
 import random
+import pygame
+
 #[blank, snake, food]
 class Snake:
     def __init__(self, rows = 10, cols = 10):
@@ -12,7 +14,8 @@ class Snake:
         self.score = 0
         self.growing = False
         self.display = None
-        self.cellSize = 20
+        
+        self.cellSize = 50
     def initGrid(self):
         self.board = [[0 for j in range(self.cols)] for i in range(self.rows)]
         redo = True
@@ -37,6 +40,8 @@ class Snake:
     def step(self, action = None):
         if(action is None):
             action = self.direction
+        elif(action == 4):
+            pass
         elif(action==0 and self.direction==3):
             pass
         elif(action==3 and self.direction==0):
@@ -44,6 +49,8 @@ class Snake:
         elif(action==1 and self.direction==2):
             pass
         elif(action==2 and self.direction==1):
+            pass
+        elif(action>4):
             pass
         else:
             self.direction = action
@@ -81,6 +88,7 @@ class Snake:
                     self.board[r][c] = 2
                     self.food = (r,c)
                     redo = False
+        return self.gameOver
     def boardComp(self):
         # HOW DOES THIS BREAK???? FUCK COPY vs DEEPCOPY
         # self.finalBoard = self.board
@@ -88,23 +96,31 @@ class Snake:
         # print(self.path)
         for x in self.path:
             self.finalBoard[x[0]][x[1]] = 1
-            
-    def drawBoard(self):
-        self.boardComp()
+
+
+    def draw(self):
         if self.display is None:
-            import pygame
             pygame.init()
-            self.display = pygame.display.set_mode((self.cols * self.cellSize, (self.rows + 1) * self.cellSize))
-        
-        # Draw the board
-        for row in range(self.rows):
-            for col in range(self.cols):
-                color = pygame.Color("green")
-                if self.finalBoard[row][col] == 1:
-                    color = pygame.Color("blue")
-                elif self.finalBoard[row][col] == 2:
-                    color = pygame.Color("red")
-                pygame.draw.rect(self.display, color, pygame.Rect(col*self.cellSize, (row+1)*self.cellSize, self.cellSize, self.cellSize))
-                pygame.draw.rect(self.display, pygame.Color("black"), pygame.Rect(col*self.cellSize, (row+1)*self.cellSize, self.cellSize, self.cellSize), 1)
-        
-        pygame.display.update()
+            self.display = pygame.display.set_mode((self.cols * self.cellSize, (self.rows + 1) * self.cellSize + 50))
+            self.font = pygame.font.SysFont(None, 40)
+            
+        else:
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    pygame.quit()
+            self.display.fill(pygame.Color("black"))
+            self.boardComp()
+            for row in range(self.rows):
+                for col in range(self.cols):
+                    color = pygame.Color("green")
+                    if self.finalBoard[row][col] == 1:
+                        color = pygame.Color("blue")
+                    elif self.finalBoard[row][col] == 2:
+                        color = pygame.Color("red")
+                    pygame.draw.rect(self.display, color, pygame.Rect(col*self.cellSize, (row+1)*self.cellSize, self.cellSize, self.cellSize))
+                    pygame.draw.rect(self.display, pygame.Color("black"), pygame.Rect(col*self.cellSize, (row+1)*self.cellSize, self.cellSize, self.cellSize), 1)
+            
+            self.scoreText = self.font.render("Score: " + str(self.score), True, pygame.Color("white"))
+            self.display.blit(self.scoreText, (10, (self.rows + 1) * self.cellSize + 50 - 40))
+            
+            pygame.display.update()
