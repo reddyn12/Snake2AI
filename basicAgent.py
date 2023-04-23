@@ -1,4 +1,5 @@
 
+from pyexpat import model
 from basic.snakeGym import SnakeEnv
 from stable_baselines3 import PPO
 from stable_baselines3.common.evaluation import evaluate_policy
@@ -64,7 +65,8 @@ env = SnakeEnv()
 m = PPO("MlpPolicy", env, device="cuda", verbose=1)#  .load(path = "simpAgent", env=env)
 print(m.env)
 
-m.learn(total_timesteps=200000, progress_bar=True)
+m.learn(total_timesteps=300000, progress_bar=True)
+m.save("simpAgent1")
 
 evaluate(m, 20, True)
 
