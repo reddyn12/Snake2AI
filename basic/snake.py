@@ -1,5 +1,6 @@
 import random
 import pygame
+import numpy as np
 
 #[blank, snake, food]
 class Snake:
@@ -24,7 +25,7 @@ class Snake:
             c = random.randint(0, self.cols-1)
             if(self.board[r][c]==0):
                 # self.board[r][c] = 1
-                print(r,c)
+                # print(r,c)
                 self.path = [(r,c)]
                 redo = False
         redo = True
@@ -34,7 +35,7 @@ class Snake:
             if(self.board[r][c]==0 and (r,c) not in self.path):
                 self.board[r][c] = 2
                 self.food = (r,c)
-                print(r,c)
+                # print(r,c)
                 redo = False
     #[up, right, left, down, NONE]
     def step(self, action = None):
@@ -97,7 +98,17 @@ class Snake:
         for x in self.path:
             self.finalBoard[x[0]][x[1]] = 1
 
+    def getPixels(self):
+        pixels = pygame.PixelArray(pygame.display.get_surface())
+        w, h = self.display.get_size()
 
+        array = np.zeros((h, w, 3), dtype=np.uint8)
+        
+        for y in range(h):
+            for x in range(w):
+                array[y, x] = pixels[x, y]
+        del pixels
+        return array
     def draw(self):
         if self.display is None:
             pygame.init()

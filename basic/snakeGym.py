@@ -1,6 +1,6 @@
 import gym
 from gym import spaces
-from snake import Snake
+from .snake import Snake
 import pygame
 import random
 
@@ -8,7 +8,7 @@ class SnakeEnv(gym.Env):
     metadata = {'render.modes': ['human']}
     
     def __init__(self, rows=10, cols=10):
-        super(SnakeEnv, self).__init__()
+        # super(SnakeEnv, self).__init__()
         self.rows = rows
         self.cols = cols
         self.action_space = spaces.Discrete(5)
@@ -18,14 +18,23 @@ class SnakeEnv(gym.Env):
     def reset(self):
         self.snake = Snake(rows=self.rows, cols=self.cols)
         self.snake.boardComp()
+        # self.render()
         return self.snake.finalBoard
         
-    def step(self, action):
+    def step(self, action=None):
+        prev = self.snake.score
         done = self.snake.step(action)
-        reward = self.snake.score
+        if done:
+            reward = -50
+        else:
+            reward = 0
         # done = self.snake.gameOver
         info = {}
         self.snake.boardComp()
+
+        if prev!=self.snake.score:
+            reward = 10
+        
         return self.snake.finalBoard, reward, done, info
         
     def render(self, mode='human'):
