@@ -102,11 +102,11 @@ class Snake:
         pixels = pygame.PixelArray(pygame.display.get_surface())
         w, h = self.display.get_size()
 
-        array = np.zeros((h, w, 3), dtype=np.uint8)
+        array = np.zeros((w, h, 3), dtype=np.int16)
         
         for y in range(h):
             for x in range(w):
-                array[y, x] = pixels[x, y]
+                array[x, y] = pixels[x, y]
         del pixels
         return array
     def draw(self):

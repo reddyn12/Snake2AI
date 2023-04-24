@@ -35,6 +35,7 @@ def evaluate(model, num_episodes=100, display = False):
             episode_rewards.append(reward)
             if display:
                 env.render()
+                print(obs)
                 time.sleep(.1)
 
         all_episode_rewards.append(sum(episode_rewards))
@@ -62,11 +63,11 @@ env = SnakeEnv()
 # evaluate(m, 20, True)
 
 
-m = PPO("MlpPolicy", env, device="cuda", verbose=1)#  .load(path = "simpAgent", env=env)
+m = PPO("MlpPolicy", env, device="cuda", verbose=1)  .load(path = "simpAgent1", env=env)
 print(m.env)
 
-m.learn(total_timesteps=300000, progress_bar=True)
-m.save("simpAgent1")
+# m.learn(total_timesteps=300000, progress_bar=True)
+# m.save("simpAgent1")
 
 evaluate(m, 20, True)
 

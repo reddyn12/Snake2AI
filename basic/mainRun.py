@@ -18,9 +18,8 @@ p = t.getPixels()
 # t.step(0)
 # t.boardComp()
 # print(np.array(t.finalBoard))
-
+t.step()
 t.draw()
-
 print(p.shape)
 print(p[80:120])
 print(p.mean())
