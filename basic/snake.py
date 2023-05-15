@@ -99,16 +99,10 @@ class Snake:
             self.finalBoard[x[0]][x[1]] = 1
 
     def getPixels(self):
-        pixels = pygame.PixelArray(pygame.display.get_surface())
-        w, h = self.display.get_size()
+        pixel_array = pygame.surfarray.array3d(self.display)
 
-        array = np.zeros((w, h, 3), dtype=np.int16)
-        
-        for y in range(h):
-            for x in range(w):
-                array[x, y] = pixels[x, y]
-        del pixels
-        return array
+        # Return the pixel array
+        return pixel_array
     def draw(self):
         if self.display is None:
             pygame.init()
