@@ -28,7 +28,7 @@ class SnakeEnv(gym.Env):
         if done:
             reward = -50
         else:
-            reward = -1
+            reward = 0
         # done = self.snake.gameOver
         info = {}
         self.snake.boardComp()

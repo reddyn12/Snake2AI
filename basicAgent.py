@@ -73,14 +73,15 @@ name = "smart-10"
 # evaluate(m, num_episodes=20, display=True)
 # print(old)
 
-m = PPO("MlpPolicy", env, device="cuda", verbose=1)  .load(path = name, env=env)
-print(m.env)
-
+# m = PPO("MlpPolicy", env, device="cuda", verbose=1)  .load(path = name, env=env)
+# print(m.env)
 
 
 # m.learn(total_timesteps=500000, progress_bar=True)
 # m.save(name)
 
-
+m = A2C("MlpPolicy", env, device="cuda", verbose = 1)
+m.learn(total_timesteps=100000, progress_bar=True)
+m.save("a2c-10")
 evaluate(m, 20, True)
 
