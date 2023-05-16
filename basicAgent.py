@@ -1,7 +1,6 @@
 
-from pyexpat import model
 from basic.snakeGym import SnakeEnv
-from stable_baselines3 import PPO
+from stable_baselines3 import PPO, A2C
 from stable_baselines3.common.evaluation import evaluate_policy
 import stable_baselines3 as sb3
 import time
@@ -35,7 +34,7 @@ def evaluate(model, num_episodes=100, display = False):
             episode_rewards.append(reward)
             if display:
                 env.render()
-                print(obs)
+                print(reward)
                 time.sleep(.1)
 
         all_episode_rewards.append(sum(episode_rewards))
@@ -45,29 +44,43 @@ def evaluate(model, num_episodes=100, display = False):
 
     return mean_episode_reward
 
-env = SnakeEnv()
+env = SnakeEnv(rows=10, cols=10)
+name = "smart-10"
 
 #EVAL MODEL
-# model = PPO("MlpPolicy", env, verbose=0, device="cuda")
+# model = PPO("MlpPolicy", env, verbose=1, device="cuda")
 # old = evaluate(model)
 # print("leanring nows")
-# model.learn(total_timesteps=300000, progress_bar=True)
-# model.save("simpAgent")
+# model.learn(total_timesteps=2500000, progress_bar=True)
+# model.save(name)
 # evaluate(model, num_episodes=20, display=True)
 # print(old)
 
 
 #LOAD MODEL
-# m = PPO("MlpPolicy", env, device="cuda").load(path = "simpAgent", env=env)
-# print(m.env)
-# evaluate(m, 20, True)
+# model = PPO("MlpPolicy", env, device="cuda").load(path = name, env=env)
+# print(model.env)
+# evaluate(model, 20, True)
 
 
-m = PPO("MlpPolicy", env, device="cuda", verbose=1)  .load(path = "simpAgent1", env=env)
+
+
+# m = PPO("MlpPolicy", env, verbose=0, device="cuda", n_steps=2048)
+# old = evaluate(m)
+# print("leanring nows")
+# m.learn(total_timesteps=2500000, progress_bar=True)
+# m.save(name)
+# evaluate(m, num_episodes=20, display=True)
+# print(old)
+
+m = PPO("MlpPolicy", env, device="cuda", verbose=1)  .load(path = name, env=env)
 print(m.env)
 
-# m.learn(total_timesteps=300000, progress_bar=True)
-# m.save("simpAgent1")
+
+
+# m.learn(total_timesteps=500000, progress_bar=True)
+# m.save(name)
+
 
 evaluate(m, 20, True)
 

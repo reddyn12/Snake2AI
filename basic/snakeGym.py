@@ -24,16 +24,17 @@ class SnakeEnv(gym.Env):
     def step(self, action=None):
         prev = self.snake.score
         done = self.snake.step(action)
+        reward = 0
         if done:
             reward = -50
         else:
-            reward = 0
+            reward = -1
         # done = self.snake.gameOver
         info = {}
         self.snake.boardComp()
 
         if prev!=self.snake.score:
-            reward = 10 * self.snake.score
+            reward = 10 #* self.snake.score
         
         return self.snake.finalBoard, reward, done, info
         
